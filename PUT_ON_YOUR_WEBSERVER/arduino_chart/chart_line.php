@@ -2,9 +2,10 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Heizung</title>
+		<title>Arduino Chart</title>
 
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> 
+
 		<script type="text/javascript">
 
 		
@@ -40,10 +41,12 @@ $(function() {
 	
 	// See source code from the JSONP handler at https://github.com/highslide-software/highcharts.com/blob/master/samples/data/from-sql.php
 	$.getJSON(cfg.getURL() + '?callback=?', function(data) {
-			Highcharts.setOptions({
+	
+	Highcharts.setOptions({
 		global : {
 			useUTC : false
 		}
+	
 	});
 				
 		// create the chart
@@ -52,11 +55,19 @@ $(function() {
 				renderTo : 'container',
 				type: 'line',
 				zoomType: 'x'
+            
 			},
 
 			navigator : {
 				adaptToUpdatedData: false,
-				series : data
+				//baseSeries : data[0],
+				series : { 
+					data : data[0].data
+					}
+			},
+
+			scrollbar: {
+				liveRedraw: false
 			},
 			
 			title: {
@@ -89,10 +100,11 @@ $(function() {
 					text: 'All'
 				}],
 				inputEnabled: false, // it supports only days
-				selected : 4 // all
+				selected : 5 // all
 			},
 			
 			xAxis : {
+				
 				events : {
 					afterSetExtremes : afterSetExtremes
 				},
@@ -118,12 +130,21 @@ $(function() {
 function afterSetExtremes(e) {
 	var cfg = new Config();
 	
+	
+	var chart = $('#container').highcharts();
 	chart.showLoading(cfg.getLoadingTitle());
+	
+	var currentExtremes = this.getExtremes(),
+		range = e.max - e.min;
 
 	$.getJSON(cfg.getURL() + '?start='+ Math.round(e.min) +	'&end=' + Math.round(e.max) + '&callback=?', function(data) {
+		//chart.navigator.series.setData(data[0].data);	
 		for (var i = 0; i < data.length; i++) {
 			chart.series[i].setData(data[i].data);
 		}
+		//chart.series=data;
+		
+		chart.redraw();
 		chart.hideLoading();
 	});
 	
