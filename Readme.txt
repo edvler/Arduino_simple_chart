@@ -1,4 +1,4 @@
-This is a chart solution designed for arduino.
+This is a chart solution designed for Arduino and other microcontrollers.
 
 
 For more informations look at the following links:
