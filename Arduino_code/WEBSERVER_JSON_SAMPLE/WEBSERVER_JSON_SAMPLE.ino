@@ -1,19 +1,21 @@
-/*
-  Web Server
- 
- A simple web server that shows the value of the analog input pins.
- using an Arduino Wiznet Ethernet shield. 
- 
- Circuit:
- * Ethernet shield attached to pins 10, 11, 12, 13
- * Analog inputs attached to pins A0 through A5 (optional)
- 
- created 18 Dec 2009
- by David A. Mellis
- modified 9 Apr 2012
- by Tom Igoe
- 
- */
+/**
+Project: Arduino simple charts
+Author: Matthias Maderer
+Date: April 2013
+
+Links:
+Description: www.edvler-blog.de/arduino-simple-chart-setup-howto-english
+Installationguide: www.edvler-blog.de/arduino-simple-charts-diagramm-visualisierung-messwerte
+GitHub: www.github.com/edvler/arduino_simple_charts
+
+
+Howto:
+1. Set the network parameters. See mac and IPAddress
+2. Customize your JSON output. Search for JSON below line 100 to find the code
+3. Validate your JSON. You can use the website http://json.parser.online.fr
+
+4. Only proceed if the validation return no failure
+*/
 
 #include <SPI.h>
 #include <Ethernet.h>
@@ -101,81 +103,83 @@ void loop() {
           client.println("Connnection: close");
           client.println();
 
-          //Generate JSON
+          //Generate JSON this is a sample template
 
           /*
-          { 
-          "DATA": 
-          	{ "LDR": 
-          		{ "LightDependetResistor 1": "1", 
-          		}, 
-          	  "DigitalPins": 
-          		{ "PIN": "0", 
-          		  "Wohnzim": "0", 
-          		  "Schalfz": "0", 
-          		  "Esszimm": "1"
-          		}, 
-          	  "DS1820": 
-          		{ "Vorl_Matt": "34.38", 
-          		  "Rueck_Matt": "33.69", 
-          		  "Vorl_Bunk": "47.75", 
-          		} 
-          	}
-          } 
+			{
+
+				"DATA":{
+					"POTI":{
+						"Poti eins":"450"
+					},
+					"LDR":{
+						"LightDepententResistor1":"350"
+					},
+					"Relays":{
+						"Relay 1 (Pumpe)":"0",
+						"Relay 2 (Stellantrieb 1)":"0",
+						"Relay 3 (Stellantrieb 2)":"1",
+						"Relay 4 (Pumpe2)":"1"
+					},
+					"LED":{
+						"red LED":"0",
+						"onboard LED":"0"
+					}
+				}
+
+			} 
           */
- 
- /*
- int relayPIN1 = 22;
-int relayPIN2 = 23;
-int relayPIN3 = 24;
-int relayPIN4 = 25;
-int redLED = 43;
-int onboardLED = 13;
-int ldrPIN = A7;
-int potiPIN = A8;
-*/
           
-          client.println("{ \"DATA\" : {"); //opening DATA
+          client.println("{ \"DATA\" : {"); //opening JSON and DATA
           
-            client.println(" \"POTI\" :"); //opening LDR
-              client.print(" { \"Poti eins\" : \"");
+            client.println(" \"POTI\" : {"); //opening group POTI
+              client.print(" \"Poti eins\" : \"");
               client.print(analogRead(potiPIN));
-              client.println("\" },");
+              client.print("\"");
+			client.println("},"); //closing group POTI
             
-            client.println(" \"LDR\" :"); //opening LDR
-              client.print(" { \"LightDepententResistor1\" : \"");
+            client.println(" \"LDR\" : {"); //opening LDR
+              client.print(" \"LightDepententResistor1\" : \"");
               client.print(analogRead(ldrPIN));
-              client.println("\" },");
+              client.print("\"");
+			client.println("},"); //closing LDR
 
-            client.println(" \"Relays\" : {"); //opening LDR
-              client.print("\"Relay 1 (Pumpe)\" : \"");
+            client.println(" \"Relays\" : {"); //opening Relay
+              client.print(" \"Relay 1 (Pumpe)\" : \""); //Relay 1
               client.print(digitalRead(relayPIN1));
-              client.println("\",");
+              client.print("\"");
+			  client.print(",");
 
-              client.print("\"Relay 2 (Stellantrieb 1)\" : \"");
+              client.print("\"Relay 2 (Stellantrieb 1)\" : \""); //Relay 2
               client.print(digitalRead(relayPIN2));
-              client.println("\",");
+              client.print("\"");
+			  client.print(",");
 
-              client.print("\"Relay 3 (Stellantrieb 2)\" : \"");
+              client.print("\"Relay 3 (Stellantrieb 2)\" : \""); //Relay 3
               client.print(digitalRead(relayPIN3));
-              client.println("\",");
+              client.print("\"");
+			  client.print(",");
 
-              client.print("\"Relay 4 (Pumpe2)\" : \"");
+              client.print("\"Relay 4 (Pumpe2)\" : \""); //Relay 4
               client.print(digitalRead(relayPIN4));
-              client.println("\"");
+              client.print("\"");
+			  client.print(",");
 
-            client.println("},"); //closing brakte for LDR
+            client.println("},"); //closing Relay
             
-            client.println(" \"LED\" :"); //opening LDR
-              client.print(" { \"red LED\" : \"");
+            client.println(" \"LED\" : {"); //opening LED
+              client.print(" \"red LED\" : \""); //read LED
               client.print(digitalRead(redLED));
-              client.println("\",");
+              client.print("\"");
+			  client.print(",");
 
-              client.print("  \"onboard LED\" : \"");
+              client.print("  \"onboard LED\" : \""); //onboard LED
               client.print(digitalRead(onboardLED));
               client.println("\" ");
-            client.println("}"); //closing brakte for LDR
-          client.println("}}"); //closing braket for DATA
+			  
+            client.println("}"); //closing LED
+			
+          client.println("}}"); //closing braket for DATA and JSON
           break;
         }
         if (c == '\n') {

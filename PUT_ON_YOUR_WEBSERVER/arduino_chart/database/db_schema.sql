@@ -1,9 +1,11 @@
+-- Project: Arduino simple Chart, Author: Matthias Maderer
+-- This file is called from script db_config.php
+
+-- You will find the schema under the MySQL folder of the GitHub Repository
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
-
-
-
 
 CREATE  TABLE IF NOT EXISTS `Category` (
   `Category_ID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,

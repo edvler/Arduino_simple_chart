@@ -1,5 +1,5 @@
-update DataStore set DataStore_Value = null where DataStore_Value = -127;
-
+-- Project: Arduino simple Chart, Author: Matthias Maderer
+-- This file is called from script abstract_DataStore.php
 
 truncate table DataStore_hour;
 
@@ -12,8 +12,7 @@ from
         inner join
     DataStore ON (Sensor.Sensor_ID = DataStore.Sensor_ID)
 group by Sensor.Sensor_ID,ROUND(UNIX_TIMESTAMP(DataStore_TIME) / (60 * 60))
-order by DataStore_TIME,Sensor_ID
-); 
+order by DataStore_TIME,Sensor_ID); 
 
 truncate table DataStore_day;
 
@@ -26,8 +25,7 @@ from
         inner join
     DataStore ON (Sensor.Sensor_ID = DataStore.Sensor_ID)
 group by Sensor.Sensor_ID,ROUND(UNIX_TIMESTAMP(DataStore_TIME) / (1440 * 60))
-order by DataStore_TIME,Sensor_ID
-); 
+order by DataStore_TIME,Sensor_ID); 
 
 truncate table DataStore_week;
 
@@ -39,6 +37,5 @@ from
     Sensor
         inner join
     DataStore ON (Sensor.Sensor_ID = DataStore.Sensor_ID)
-group by Sensor.Sensor_ID,ROUND(UNIX_TIMESTAMP(DataStore_TIME) / (43200* 60))
-order by DataStore_TIME,Sensor_ID
-); 
+group by Sensor.Sensor_ID,ROUND(UNIX_TIMESTAMP(DataStore_TIME) / (10080* 60))
+order by DataStore_TIME,Sensor_ID); 
