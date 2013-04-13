@@ -5,16 +5,19 @@ Author: Matthias Maderer
 Date: April 2013
 
 Links:
-www.edvler-blog.de
-www.github.com/edvler
+Description: www.edvler-blog.de/arduino-simple-chart-setup-howto-english
+Installationguide: www.edvler-blog.de/arduino-simple-charts-diagramm-visualisierung-messwerte
+GitHub: www.github.com/edvler/arduino_simple_charts
 
 
 Howto:
-1. Set the right timezone
+1. Choose the right timezone if Europe/Berlin is not the right one
 
-
-Function of this script
 This file loads content from four different data tables depending on the required time range.
+The DataStore table can contain million data points. Since we are loading OHLC data and
+MySQL has no concept of first and last in a data group, we have extracted groups by hours, days
+and week into separate tables. If we were to load a line series with average data, we wouldn't
+have to do this.
 
 @param callback {String} The name of the JSONP callback to pad the JSON within
 @param start {Integer} The starting point in JS time

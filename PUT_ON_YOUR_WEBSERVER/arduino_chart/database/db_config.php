@@ -5,8 +5,9 @@ Author: Matthias Maderer
 Date: April 2013
 
 Links:
-www.edvler-blog.de
-www.github.com/edvler
+Description: www.edvler-blog.de/arduino-simple-chart-setup-howto-english
+Installationguide: www.edvler-blog.de/arduino-simple-charts-diagramm-visualisierung-messwerte
+GitHub: www.github.com/edvler/arduino_simple_charts
 
 
 Function of this script
