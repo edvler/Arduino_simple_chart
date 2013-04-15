@@ -39,7 +39,7 @@ if ($argc > 0)
 
 // check if commandline parameters exists
 if(!(array_key_exists('id',$_REQUEST)) || !(array_key_exists('url',$_REQUEST))) {
-	die "please call this script with the following parameters:\n -id : Unique id for the Arduino\n -url : Url of the Arduino JSON website\n example: json_form_arduino.php id=1 url=\"http://192.168.0.123\"";
+	die ("please call this script with the following parameters:\n -id : Unique id for the Arduino\n -url : Url of the Arduino JSON website\n example: json_form_arduino.php id=1 url=\"http://192.168.0.123\"");
 }
 
 $arduino_id = $_REQUEST["id"];
